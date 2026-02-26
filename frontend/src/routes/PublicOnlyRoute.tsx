@@ -1,12 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAppSelector } from "../hooks/hooks";
-import { PATHS } from "../app/paths";
 
 export default function PublicOnlyRoute() {
-  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const token = useAppSelector((state) => state.auth.token);
 
-  if (isAuthenticated) {
-    return <Navigate to={PATHS.app} replace />;
+  if (token) {
+    return <Navigate to="/app" replace />;
   }
 
   return <Outlet />;

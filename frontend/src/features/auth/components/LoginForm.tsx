@@ -1,6 +1,8 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../authApi";
+import { setCredentials } from "../authSlice";
+import { useAppDispatch } from "../../../hooks/hooks";
 
 type LocationState = {
   from?: string;
@@ -9,24 +11,31 @@ type LocationState = {
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const navigate = useNavigate();
   const location = useLocation();
-  const [login, { isLoading, error, isSuccess }] = useLoginMutation();
+  const dispatch = useAppDispatch();
+
+  const [login, { isLoading, error }] = useLoginMutation();
 
   const from = (location.state as LocationState | null)?.from ?? "/app";
 
-  useEffect(() => {
-    if (isSuccess) {
-      navigate(from, { replace: true });
-    }
-  }, [from, isSuccess, navigate]);
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     try {
-      await login({ email, password }).unwrap();
+      const result = await login({ email, password }).unwrap();
+
+      dispatch(
+        setCredentials({
+          token: result.token,
+          user: result.data.user,
+        })
+      );
+
+      navigate(from, { replace: true });
     } catch {
-      // handled by RTK Query error object
+      // handled by RTK Query error
     }
   };
 
@@ -37,6 +46,7 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4 rounded-xl border p-6">
       <h2 className="text-xl font-semibold">Login</h2>
+
       <div className="space-y-1">
         <label className="text-sm">Email</label>
         <input
@@ -47,6 +57,7 @@ export default function LoginForm() {
           required
         />
       </div>
+
       <div className="space-y-1">
         <label className="text-sm">Password</label>
         <input

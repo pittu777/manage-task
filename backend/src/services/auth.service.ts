@@ -30,7 +30,14 @@ export const signUpUser = async (userData: SignUpDTO) => {
     });
 
     const token = signToken(newUser._id.toString());
-    return { token, user: newUser }
+    return {
+        token,
+        user: {
+            name: newUser.name,
+            email: newUser.email,
+            role: newUser.role,
+        },
+    };
 }
 
 export const loginUser = async (
@@ -54,7 +61,6 @@ export const loginUser = async (
     return {
         token,
         user: {
-            _id: user._id.toString(),
             name: user.name,
             email: user.email,
             role: user.role,
