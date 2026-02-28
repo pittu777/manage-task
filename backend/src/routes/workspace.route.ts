@@ -8,7 +8,7 @@ import { Router } from "express";
 
 const router = Router();
 
-router.post("/workspace", protect, createWorkspace);
+router.post("/", protect, createWorkspace);
 
 
 export default router;
