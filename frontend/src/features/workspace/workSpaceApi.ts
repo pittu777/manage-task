@@ -2,8 +2,22 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { RootState } from "../../app/store";
 
 
+interface Work {
+    name: string;
+    id: string;
+    owner: string;
+    members: string[];
+}
+
+interface Workspaces {
+    status: string,
+    data: Work[]
+}
+
+
 export const workSpaceApi = createApi({
     reducerPath: "workspaceApi",
+    tagTypes: ["Workspaces"],
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_API_BASE_URL ?? "http://localhost:5000"
             }/api/v1/workspaces`,
@@ -18,14 +32,23 @@ export const workSpaceApi = createApi({
     }),
     endpoints: (builder) => ({
         createWorkSpace: builder.mutation({
+
             query: (body) => ({
                 url: "",
                 method: "POST",
                 body,
             }),
+            invalidatesTags: ["Workspaces"]
+        }),
+        getWorkSpaces: builder.query<Workspaces, void>({
+            query: () => ({
+                url: "",
+                method: "GET",
+            }),
+            providesTags: ["Workspaces"],
         })
     })
 })
 
 
-export const { useCreateWorkSpaceMutation } = workSpaceApi;
+export const { useCreateWorkSpaceMutation, useGetWorkSpacesQuery } = workSpaceApi;

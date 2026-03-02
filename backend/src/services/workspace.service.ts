@@ -29,3 +29,8 @@ export const createWorkSpace = async (name: string, userId: string) => {
 
 
 };
+
+export const getWorkSpaces = async (userId: string) => {
+    const workspaces = WorkspaceModel.find({ members: userId });
+    return workspaces;
+}

@@ -3,4 +3,5 @@ export const PATHS = {
   login: "/login",
   signup: "/signup",
   app: "/app",
+  workspaceList: "/app/workspaces",
 } as const;
