@@ -14,6 +14,22 @@ interface Workspaces {
     data: Work[]
 }
 
+type SingleMember = {
+    email: string,
+    name: string,
+}
+interface SingleWork {
+    members: SingleMember[],
+    name: string,
+    owner: SingleMember,
+
+}
+
+interface SingleWorkSPace {
+    status: string;
+    data: SingleWork
+}
+
 
 export const workSpaceApi = createApi({
     reducerPath: "workspaceApi",
@@ -46,9 +62,17 @@ export const workSpaceApi = createApi({
                 method: "GET",
             }),
             providesTags: ["Workspaces"],
+            keepUnusedDataFor: 300,
+        }),
+        getSingleWorkSPace: builder.query<SingleWorkSPace, string>({
+            query: (id) => ({
+                url: `/${id}`,
+                method: "GET",
+            }),
+
         })
     })
 })
 
 
-export const { useCreateWorkSpaceMutation, useGetWorkSpacesQuery } = workSpaceApi;
+export const { useCreateWorkSpaceMutation, useGetWorkSpacesQuery, useGetSingleWorkSPaceQuery } = workSpaceApi;

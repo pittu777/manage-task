@@ -4,4 +4,5 @@ export const PATHS = {
   signup: "/signup",
   app: "/app",
   workspaceList: "/app/workspaces",
+  singleWorkSpace: "/app/workspaces/:id",
 } as const;
