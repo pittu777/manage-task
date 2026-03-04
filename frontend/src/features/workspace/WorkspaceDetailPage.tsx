@@ -40,10 +40,10 @@ export const WorkSpaceDetailPage = () => {
     console.log(data);
     const workspace = data?.data;
 
-    if (!workspace) return null;
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error</div>;
+    if (!workspace) return null;
 
     return <SingleWorkSpace name={workspace.name} ownerName={workspace.owner.name} members={workspace.members} />;
 }
