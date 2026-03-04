@@ -8,6 +8,8 @@ import LoginPage from "../pages/LoginPage";
 import SignUpPage from "../pages/SignUpPage";
 import DashboardPage from "../pages/DashboardPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import WorkSpaceList from "../features/workspace/WorkSpaceList";
+import { WorkSpaceDetailPage } from "../features/workspace/WorkspaceDetailPage";
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +33,12 @@ export const router = createBrowserRouter([
     children: [
       {
         element: <AppLayout />,
-        children: [{ path: PATHS.app, element: <DashboardPage /> }],
+        children: [
+          { path: PATHS.app, element: <DashboardPage /> },
+          { path: PATHS.workspaceList, element: <WorkSpaceList /> },
+          { path: PATHS.singleWorkSpace, element: <WorkSpaceDetailPage /> },
+
+        ],
       },
     ],
   },

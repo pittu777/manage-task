@@ -29,3 +29,17 @@ export const createWorkSpace = async (name: string, userId: string) => {
 
 
 };
+
+export const getWorkSpaces = async (userId: string) => {
+    const workspaces = WorkspaceModel.find({ members: userId });
+    return workspaces;
+}
+
+export const getSingleWorkSpace = async (workSpaceId: string, userId: string) => {
+    const singleWorkSPace = await WorkspaceModel.findOne({ _id: workSpaceId, members: userId }).populate("owner", "name email")
+        .populate("members", "name email");
+    if (!singleWorkSPace) {
+        throw new AppError("Workspace not found", 404);
+    }
+    return singleWorkSPace;
+}

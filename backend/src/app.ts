@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/work", workSPaceRouter);
+app.use("/api/v1/workspaces", workSPaceRouter);
 
 app.use(globelErrorHandler);
 

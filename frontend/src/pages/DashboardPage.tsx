@@ -1,13 +1,25 @@
+import { useNavigate } from "react-router-dom";
+import WorkSpaceForm from "../features/workspace/CreateWorkSpaceForm";
 import { useAppSelector } from "../hooks/hooks";
 
 export default function DashboardPage() {
   const { user } = useAppSelector((state) => state.auth);
+  const nav = useNavigate();
+
+  const handleClick = () => {
+    nav("/app/workspaces")
+  };
 
   return (
-    <section className="rounded-xl border p-6">
-      <h2 className="text-xl font-semibold">Dashboard</h2>
-      <p className="mt-2 text-gray-700">Welcome back, {user?.name}.</p>
-      <p className="mt-1 text-sm text-gray-600">Role: {user?.role}</p>
-    </section>
+    <>
+      <section className="rounded-xl border p-6">
+        <h2 className="text-xl font-semibold">Dashboard</h2>
+        <p className="mt-2 text-gray-700">Welcome back, {user?.name}.</p>
+        <p className="mt-1 text-sm text-gray-600">Role: {user?.role}</p>
+        <WorkSpaceForm />
+      </section>
+      <button className="bg-black text-white cursor-pointer p-2 rounded-lg" onClick={handleClick}>all workspaces</button>
+
+    </>
   );
 }

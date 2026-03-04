@@ -25,3 +25,35 @@ export const createWorkspace = async (req: Request, res: Response, next: NextFun
         next(err);
     }
 }
+
+export const getWorkSpaces = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        if (!req.user) {
+            throw new AppError("Not authorized", 401);
+        }
+
+        const workspaces = await workSpaceService.getWorkSpaces(req.user.id);
+        res.status(200).json({
+            status: "success",
+            data: workspaces,
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+export const getSingleWorkSpace = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        if (!req.user) {
+            throw new AppError("Not authorized", 401);
+        }
+
+        const workSpace = await workSpaceService.getSingleWorkSpace(req.params.id as string, req.user.id);
+        res.status(200).json({
+            status: "success",
+            data: workSpace,
+        })
+    } catch (error) {
+        next(error);
+    }
+}

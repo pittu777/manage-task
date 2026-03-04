@@ -36,6 +36,7 @@ export const signUpUser = async (userData: SignUpDTO) => {
             name: newUser.name,
             email: newUser.email,
             role: newUser.role,
+            userId: newUser._id,
         },
     };
 }
@@ -64,6 +65,7 @@ export const loginUser = async (
             name: user.name,
             email: user.email,
             role: user.role,
+            userId: user._id.toString(),
         },
     };
 };
