@@ -42,3 +42,16 @@ export const createBoard = async (workSpaceId: string, name: string, userId: str
 
 
 }
+
+export const getBoards = async (workSpaceId: string, userId: string) => {
+    const workspace = await WorkspaceModel.findOne({
+        _id: workSpaceId,
+        members: userId
+    });
+    if (!workspace) {
+        throw new AppError("Workspace not found or access denied", 404);
+    }
+    const boards = await BoardModel.find({ workspace: workSpaceId }).populate("createdBy", "name email");
+
+    return boards;
+}

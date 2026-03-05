@@ -29,3 +29,21 @@ export const createBoard = async (req: Request<Params>, res: Response, next: Nex
         next(error);
     }
 }
+
+export const getBoardsOfWorkSpace = async (req: Request<Params>, res: Response, next: NextFunction) => {
+    try {
+        const { workSpaceId } = req.params;
+        const userId = req.user?.id;
+        if (!userId) {
+            throw new AppError("Unauthorized", 404);
+        }
+        const borads = await boardService.getBoards(workSpaceId, userId);
+
+        res.status(200).json({
+            status: "success",
+            data: borads,
+        })
+    } catch (err) {
+        next(err);
+    }
+}
